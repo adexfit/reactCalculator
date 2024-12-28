@@ -79,7 +79,9 @@ const Calculate = () => {
     if (
       outPut.charAt(outPut.length - 1) == "" ||
       outPut.charAt(outPut.length - 1) == "*" ||
-      outPut.charAt(outPut.length - 1) == "-"
+      outPut.charAt(outPut.length - 1) == "-" ||
+      outPut.charAt(outPut.length - 1) == "+" ||
+      outPut.charAt(outPut.length - 1) == "/"
     ) {
       return;
     } else {
@@ -91,7 +93,9 @@ const Calculate = () => {
     if (
       outPut.charAt(outPut.length - 1) == "" ||
       outPut.charAt(outPut.length - 1) == "/" ||
-      outPut.charAt(outPut.length - 1) == "-"
+      outPut.charAt(outPut.length - 1) == "-" ||
+      outPut.charAt(outPut.length - 1) == "*" ||
+      outPut.charAt(outPut.length - 1) == "+"
     ) {
       return;
     } else {
@@ -100,7 +104,12 @@ const Calculate = () => {
     }
   };
   const subSymb = () => {
-    if (outPut.charAt(outPut.length - 1) == "-") {
+    if (
+      outPut.charAt(outPut.length - 1) == "-" ||
+      outPut.charAt(outPut.length - 1) == "/" ||
+      outPut.charAt(outPut.length - 1) == "*" ||
+      outPut.charAt(outPut.length - 1) == "+"
+    ) {
       return;
     } else {
       setNum1(outPut);

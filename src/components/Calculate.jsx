@@ -6,6 +6,13 @@ const Calculate = () => {
   const [outPut, setOutPut] = useState("");
   const [num1, setNum1] = useState("");
   const [num2, setNum2] = useState("");
+  const [resultIni, setResultIni] = useState("");
+  const [operation, setOperation] = useState({
+    addition: false,
+    substract: false,
+    multiplication: false,
+    division: false,
+  });
 
   const zero = "0";
   const one = "1";
@@ -72,6 +79,7 @@ const Calculate = () => {
       return;
     } else {
       setNum1(outPut);
+      console.log(num1);
       setOutPut((prev) => (prev = prev + "+"));
     }
   };
@@ -125,17 +133,26 @@ const Calculate = () => {
     });
   };
 
+  // const checkInput = () => {
+  //   let lastInput = outPut.charAt(outPut.length - 1);
+  //   lastInput == "+" ? setOperation()
+  // };
+
+  // const initialResult = num1
+
   return (
     <div className="body_card">
-      <div id="result">{outPut}</div>
+      <div id="result" onChange={checkInput}>
+        {outPut}
+      </div>
       <div className="pre_result">{outPut}</div>
 
       <div className="num_card">
         <div id="itemAC" onClick={clearInput}>
           AC
         </div>
-        <div className="block" onClick={divideSymb}>
-          /
+        <div className="block" onClick={deleteOne}>
+          <FontAwesomeIcon icon={faBackward} />
         </div>
         <div className="block" onClick={multiplySymb}>
           x
@@ -180,8 +197,8 @@ const Calculate = () => {
         <div id="item0" onClick={putZero}>
           0
         </div>
-        <div className="block" onClick={deleteOne}>
-          <FontAwesomeIcon icon={faBackward} />
+        <div className="block" onClick={divideSymb}>
+          /
         </div>
 
         <div id="item_equal_sign">=</div>

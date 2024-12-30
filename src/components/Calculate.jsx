@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,12 +7,16 @@ const Calculate = () => {
   const [num1, setNum1] = useState("");
   const [num2, setNum2] = useState("");
   const [resultIni, setResultIni] = useState("");
-  const [operation, setOperation] = useState({
-    addition: false,
-    substract: false,
-    multiplication: false,
-    division: false,
-  });
+  // const [operation, setOperation] = useState({
+  //   addition: false,
+  //   substract: false,
+  //   multiplication: false,
+  //   division: false,
+  // });
+
+  useEffect(() => {
+    checkInput();
+  }, [outPut]);
 
   const zero = "0";
   const one = "1";
@@ -69,83 +73,87 @@ const Calculate = () => {
   const putDot = () => {};
 
   const addSymb = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
     if (
-      outPut.charAt(outPut.length - 1) == "" ||
-      outPut.charAt(outPut.length - 1) == "+" ||
-      outPut.charAt(outPut.length - 1) == "-" ||
-      outPut.charAt(outPut.length - 1) == "*" ||
-      outPut.charAt(outPut.length - 1) == "/"
+      lastLetter == "" ||
+      lastLetter == "+" ||
+      lastLetter == "-" ||
+      lastLetter == "*" ||
+      lastLetter == "/"
     ) {
       return;
     } else {
-      setNum1(outPut);
-      console.log(num1);
-      setOutPut((prev) => (prev = prev + "+"));
+      setOutPut((prev) => (prev = prev.replace(/^0+/, "") + "+"));
     }
   };
   const multiplySymb = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
     if (
-      outPut.charAt(outPut.length - 1) == "" ||
-      outPut.charAt(outPut.length - 1) == "*" ||
-      outPut.charAt(outPut.length - 1) == "-" ||
-      outPut.charAt(outPut.length - 1) == "+" ||
-      outPut.charAt(outPut.length - 1) == "/"
+      lastLetter == "" ||
+      lastLetter == "*" ||
+      lastLetter == "-" ||
+      lastLetter == "+" ||
+      lastLetter == "/"
     ) {
       return;
     } else {
-      setNum1(outPut);
-      setOutPut((prev) => (prev = prev + "*"));
+      setOutPut((prev) => (prev = prev.replace(/^0+/, "") + "*"));
     }
   };
   const divideSymb = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
     if (
-      outPut.charAt(outPut.length - 1) == "" ||
-      outPut.charAt(outPut.length - 1) == "/" ||
-      outPut.charAt(outPut.length - 1) == "-" ||
-      outPut.charAt(outPut.length - 1) == "*" ||
-      outPut.charAt(outPut.length - 1) == "+"
+      lastLetter == "" ||
+      lastLetter == "/" ||
+      lastLetter == "-" ||
+      lastLetter == "*" ||
+      lastLetter == "+"
     ) {
       return;
     } else {
-      setNum1(outPut);
       setOutPut((prev) => (prev = prev + "/"));
     }
   };
   const subSymb = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
     if (
-      outPut.charAt(outPut.length - 1) == "-" ||
-      outPut.charAt(outPut.length - 1) == "/" ||
-      outPut.charAt(outPut.length - 1) == "*" ||
-      outPut.charAt(outPut.length - 1) == "+"
+      lastLetter == "-" ||
+      lastLetter == "/" ||
+      lastLetter == "*" ||
+      lastLetter == "+"
     ) {
       return;
     } else {
-      setNum1(outPut);
       setOutPut((prev) => (prev = prev + "-"));
     }
   };
 
   const deleteOne = () => {
-    let unwanted = outPut.charAt(outPut.length - 1);
-    console.log(unwanted);
     setOutPut((prev) => {
-      return (prev = prev.split(unwanted).join(""));
+      return (prev = prev.replace(/.$/, ""));
     });
   };
 
-  // const checkInput = () => {
-  //   let lastInput = outPut.charAt(outPut.length - 1);
-  //   lastInput == "+" ? setOperation()
-  // };
+  const checkInput = () => {
+    //str = str.replaceAll("^0+", "");
 
-  // const initialResult = num1
+    let lastLetter = outPut.charAt(outPut.length - 1);
+    if (
+      lastLetter !== "+" &&
+      lastLetter !== "-" &&
+      lastLetter !== "/" &&
+      lastLetter !== "*"
+    ) {
+      // setResultIni(eval(outPut.replace(/^0+/, "")));
+    }
+  };
+
+  // const initialResult = num1    onChange={checkInput}
 
   return (
     <div className="body_card">
-      <div id="result" onChange={checkInput}>
-        {outPut}
-      </div>
-      <div className="pre_result">{outPut}</div>
+      <div id="result">{outPut}</div>
+      <div className="pre_result">{resultIni}</div>
 
       <div className="num_card">
         <div id="itemAC" onClick={clearInput}>

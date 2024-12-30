@@ -27,17 +27,38 @@ const Calculate = () => {
   const six = "6";
   const seven = "7";
   const eight = "8";
+  const dot = ".";
   const nine = "9";
 
   const clearInput = () => {
     setOutPut("");
   };
-
+  //x.replace(/(?<=^|[^0-9])0+/g,"");
   const putZero = () => {
-    outPut == "" ? setOutPut(zero) : setOutPut((prev) => (prev = prev + zero));
+    let lastLetter = outPut.charAt(outPut.length - 1);
+    let secondlastLetter = outPut.charAt(outPut.length - 1);
+    if (
+      (lastLetter == "0" &&
+        (secondlastLetter == "+" ||
+          secondlastLetter == "-" ||
+          secondlastLetter == "*" ||
+          secondlastLetter == "/")) ||
+      (outPut.length == 1 && lastLetter == "0")
+    ) {
+      return;
+    } else
+      outPut == ""
+        ? setOutPut(zero)
+        : setOutPut((prev) => (prev = prev + zero));
   };
 
   const putOne = () => {
+    // let lastLetter = outPut.charAt(outPut.length - 1);
+    // if(outPut == ""){
+    //   setOutPut(one)
+    // }else if(lastLetter == "0"){
+
+    // }
     outPut == "" ? setOutPut(one) : setOutPut((prev) => (prev = prev + one));
   };
   const putTwo = () => {
@@ -70,7 +91,38 @@ const Calculate = () => {
   const putNine = () => {
     outPut == "" ? setOutPut(nine) : setOutPut((prev) => (prev = prev + nine));
   };
-  const putDot = () => {};
+  const putDot = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
+    lastLetter !== "" ||
+    lastLetter !== "." ||
+    lastLetter !== "/" ||
+    lastLetter !== "+" ||
+    lastLetter !== "-" ||
+    lastLetter !== "*"
+      ? setOutPut((prev) => (prev = prev + dot))
+      : setOutPut(prev);
+  };
+  const putOpenBC = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
+    lastLetter !== "" ||
+    lastLetter !== "." ||
+    lastLetter !== "/" ||
+    lastLetter !== "+" ||
+    lastLetter !== "-" ||
+    lastLetter !== "*"
+      ? setOutPut((prev) => (prev = prev + openBrac))
+      : setOutPut(prev);
+  };
+  const putCloseBC = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
+    lastLetter !== "." ||
+    lastLetter !== "/" ||
+    lastLetter !== "+" ||
+    lastLetter !== "-" ||
+    lastLetter !== "*"
+      ? setOutPut((prev) => (prev = prev + closeBrac))
+      : setOutPut(prev);
+  };
 
   const addSymb = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
@@ -83,7 +135,7 @@ const Calculate = () => {
     ) {
       return;
     } else {
-      setOutPut((prev) => (prev = prev.replace(/^0+/, "") + "+"));
+      setOutPut((prev) => (prev = prev + "+"));
     }
   };
   const multiplySymb = () => {
@@ -97,7 +149,7 @@ const Calculate = () => {
     ) {
       return;
     } else {
-      setOutPut((prev) => (prev = prev.replace(/^0+/, "") + "*"));
+      setOutPut((prev) => (prev = prev + "*"));
     }
   };
   const divideSymb = () => {
@@ -135,20 +187,17 @@ const Calculate = () => {
   };
 
   const checkInput = () => {
-    //str = str.replaceAll("^0+", "");
-
     let lastLetter = outPut.charAt(outPut.length - 1);
     if (
       lastLetter !== "+" &&
       lastLetter !== "-" &&
       lastLetter !== "/" &&
-      lastLetter !== "*"
+      lastLetter !== "*" &&
+      lastLetter !== "("
     ) {
-      // setResultIni(eval(outPut.replace(/^0+/, "")));
+      setResultIni(eval(outPut.replace(/(?<=^|[^0-9])0+/g, "")));
     }
   };
-
-  // const initialResult = num1    onChange={checkInput}
 
   return (
     <div className="body_card">
@@ -201,9 +250,11 @@ const Calculate = () => {
         <div className="block" onClick={putThree}>
           {three}
         </div>
-        <div className="block">.</div>
         <div id="item0" onClick={putZero}>
           0
+        </div>
+        <div className="block" onClick={putDot}>
+          .
         </div>
         <div className="block" onClick={divideSymb}>
           /

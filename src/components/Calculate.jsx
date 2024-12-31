@@ -4,15 +4,9 @@ import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
 const Calculate = () => {
   const [outPut, setOutPut] = useState("");
-  const [num1, setNum1] = useState("");
-  const [num2, setNum2] = useState("");
+  // const [num1, setNum1] = useState("");
+  // const [num2, setNum2] = useState("");
   const [resultIni, setResultIni] = useState("");
-  // const [operation, setOperation] = useState({
-  //   addition: false,
-  //   substract: false,
-  //   multiplication: false,
-  //   division: false,
-  // });
 
   useEffect(() => {
     checkInput();
@@ -30,35 +24,7 @@ const Calculate = () => {
   const dot = ".";
   const nine = "9";
 
-  const clearInput = () => {
-    setOutPut("");
-  };
-  //x.replace(/(?<=^|[^0-9])0+/g,"");
-  const putZero = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
-    let secondlastLetter = outPut.charAt(outPut.length - 1);
-    if (
-      (lastLetter == "0" &&
-        (secondlastLetter == "+" ||
-          secondlastLetter == "-" ||
-          secondlastLetter == "*" ||
-          secondlastLetter == "/")) ||
-      (outPut.length == 1 && lastLetter == "0")
-    ) {
-      return;
-    } else
-      outPut == ""
-        ? setOutPut(zero)
-        : setOutPut((prev) => (prev = prev + zero));
-  };
-
   const putOne = () => {
-    // let lastLetter = outPut.charAt(outPut.length - 1);
-    // if(outPut == ""){
-    //   setOutPut(one)
-    // }else if(lastLetter == "0"){
-
-    // }
     outPut == "" ? setOutPut(one) : setOutPut((prev) => (prev = prev + one));
   };
   const putTwo = () => {
@@ -93,37 +59,28 @@ const Calculate = () => {
   };
   const putDot = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
-    lastLetter !== "" ||
-    lastLetter !== "." ||
-    lastLetter !== "/" ||
-    lastLetter !== "+" ||
-    lastLetter !== "-" ||
-    lastLetter !== "*"
-      ? setOutPut((prev) => (prev = prev + dot))
-      : setOutPut(prev);
-  };
-  const putOpenBC = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
-    lastLetter !== "" ||
-    lastLetter !== "." ||
-    lastLetter !== "/" ||
-    lastLetter !== "+" ||
-    lastLetter !== "-" ||
-    lastLetter !== "*"
-      ? setOutPut((prev) => (prev = prev + openBrac))
-      : setOutPut(prev);
-  };
-  const putCloseBC = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
-    lastLetter !== "." ||
-    lastLetter !== "/" ||
-    lastLetter !== "+" ||
-    lastLetter !== "-" ||
-    lastLetter !== "*"
-      ? setOutPut((prev) => (prev = prev + closeBrac))
-      : setOutPut(prev);
+    if (lastLetter == "" || lastLetter == ".") {
+      return;
+    } else {
+      setOutPut((prev) => (prev = prev + dot));
+    }
   };
 
+  const clearInput = () => {
+    setOutPut("");
+    setResultIni("");
+  };
+
+  //x.replace(/(?<=^|[^0-9])0+/g,"");
+  const putZero = () => {
+    let lastLetter = outPut.charAt(outPut.length - 1);
+    let secondlastLetter = outPut.charAt(outPut.length - 1);
+    if (outPut.length == 1 && lastLetter == "0") {
+      return;
+    } else {
+      return setOutPut((prev) => (prev = prev + zero));
+    }
+  };
   const addSymb = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
     if (
@@ -187,15 +144,27 @@ const Calculate = () => {
   };
 
   const checkInput = () => {
+    if (outPut == "") {
+      setResultIni("");
+    }
+  };
+
+  const showResult = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
     if (
-      lastLetter !== "+" &&
-      lastLetter !== "-" &&
-      lastLetter !== "/" &&
-      lastLetter !== "*" &&
-      lastLetter !== "("
+      lastLetter == "+" ||
+      lastLetter == "-" ||
+      lastLetter == "/" ||
+      lastLetter == "*"
     ) {
-      setResultIni(eval(outPut.replace(/(?<=^|[^0-9])0+/g, "")));
+      setResultIni("Invalid input");
+    } else {
+      try {
+        setResultIni(eval(outPut.replace(/(?<=^|[^0-9])0+/g, ""))); //regex to remove leading zeros anywhere in string
+      } catch (e) {
+        console.log(e);
+        setResultIni("Invalid input");
+      }
     }
   };
 
@@ -260,7 +229,9 @@ const Calculate = () => {
           /
         </div>
 
-        <div id="item_equal_sign">=</div>
+        <div id="item_equal_sign" onClick={showResult}>
+          =
+        </div>
       </div>
     </div>
   );

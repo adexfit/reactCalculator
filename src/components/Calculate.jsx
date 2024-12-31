@@ -169,71 +169,75 @@ const Calculate = () => {
   };
 
   return (
-    <div className="body_card">
-      <div id="result">{outPut}</div>
-      <div className="pre_result">{resultIni}</div>
+    <>
+      <div className="body_card">
+        <div id="result">{outPut}</div>
+        <div className="pre_result">{resultIni}</div>
 
-      <div className="num_card">
-        <div id="itemAC" onClick={clearInput}>
-          AC
-        </div>
-        <div className="block" onClick={deleteOne}>
-          <FontAwesomeIcon icon={faBackward} />
-        </div>
-        <div className="block" onClick={multiplySymb}>
-          x
-        </div>
+        <div className="num_card">
+          <div id="itemAC" onClick={clearInput}>
+            AC
+          </div>
+          <div className="block" onClick={deleteOne}>
+            <FontAwesomeIcon icon={faBackward} />
+          </div>
+          <div className="block" onClick={multiplySymb}>
+            x
+          </div>
 
-        <div className="block" onClick={putSeven}>
-          {seven}
-        </div>
-        <div className="block" onClick={putEight}>
-          {eight}
-        </div>
-        <div className="block" onClick={putNine}>
-          {nine}
-        </div>
-        <div className="block" onClick={subSymb}>
-          -
-        </div>
+          <div className="block" onClick={putSeven}>
+            {seven}
+          </div>
+          <div className="block" onClick={putEight}>
+            {eight}
+          </div>
+          <div className="block" onClick={putNine}>
+            {nine}
+          </div>
+          <div className="block" onClick={subSymb}>
+            -
+          </div>
 
-        <div className="block" onClick={putFour}>
-          {four}
-        </div>
-        <div className="block" onClick={putFive}>
-          {five}
-        </div>
-        <div className="block" onClick={putSix}>
-          {six}
-        </div>
-        <div className="block" onClick={addSymb}>
-          +
-        </div>
+          <div className="block" onClick={putFour}>
+            {four}
+          </div>
+          <div className="block" onClick={putFive}>
+            {five}
+          </div>
+          <div className="block" onClick={putSix}>
+            {six}
+          </div>
+          <div className="block" onClick={addSymb}>
+            +
+          </div>
 
-        <div className="block" onClick={putOne}>
-          {one}
-        </div>
-        <div className="block" onClick={putTwo}>
-          {two}
-        </div>
-        <div className="block" onClick={putThree}>
-          {three}
-        </div>
-        <div id="item0" onClick={putZero}>
-          0
-        </div>
-        <div className="block" onClick={putDot}>
-          .
-        </div>
-        <div className="block" onClick={divideSymb}>
-          /
-        </div>
+          <div className="block" onClick={putOne}>
+            {one}
+          </div>
+          <div className="block" onClick={putTwo}>
+            {two}
+          </div>
+          <div className="block" onClick={putThree}>
+            {three}
+          </div>
+          <div id="item0" onClick={putZero}>
+            0
+          </div>
+          <div className="block" onClick={putDot}>
+            .
+          </div>
+          <div className="block" onClick={divideSymb}>
+            /
+          </div>
 
-        <div id="item_equal_sign" onClick={showResult}>
-          =
+          <div id="item_equal_sign" onClick={showResult}>
+            =
+          </div>
         </div>
       </div>
-    </div>
+      <br />
+      <div className="author">--by Adeboye Elisha</div>
+    </>
   );
 };
 

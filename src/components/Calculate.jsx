@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBackward } from "@fortawesome/free-solid-svg-icons";
+import BigEval from "bigeval";
 
 const Calculate = () => {
-  const [outPut, setOutPut] = useState("");
+  let ourEval = new BigEval();
+  const [outPut, setOutPut] = useState("0");
   // const [num1, setNum1] = useState("");
   // const [num2, setNum2] = useState("");
-  const [resultIni, setResultIni] = useState("");
+  const [resultIni, setResultIni] = useState("0");
 
   useEffect(() => {
     checkInput();
@@ -25,41 +27,41 @@ const Calculate = () => {
   const nine = "9";
 
   const putOne = () => {
-    outPut == "" ? setOutPut(one) : setOutPut((prev) => (prev = prev + one));
+    outPut == "0" ? setOutPut(one) : setOutPut((prev) => (prev = prev + one));
   };
   const putTwo = () => {
-    outPut == "" ? setOutPut(two) : setOutPut((prev) => (prev = prev + two));
+    outPut == "0" ? setOutPut(two) : setOutPut((prev) => (prev = prev + two));
   };
   const putThree = () => {
-    outPut == ""
+    outPut == "0"
       ? setOutPut(three)
       : setOutPut((prev) => (prev = prev + three));
   };
   const putFour = () => {
-    outPut == "" ? setOutPut(four) : setOutPut((prev) => (prev = prev + four));
+    outPut == "0" ? setOutPut(four) : setOutPut((prev) => (prev = prev + four));
   };
   const putFive = () => {
-    outPut == "" ? setOutPut(five) : setOutPut((prev) => (prev = prev + five));
+    outPut == "0" ? setOutPut(five) : setOutPut((prev) => (prev = prev + five));
   };
   const putSix = () => {
-    outPut == "" ? setOutPut(six) : setOutPut((prev) => (prev = prev + six));
+    outPut == "0" ? setOutPut(six) : setOutPut((prev) => (prev = prev + six));
   };
   const putSeven = () => {
-    outPut == ""
+    outPut == "0"
       ? setOutPut(seven)
       : setOutPut((prev) => (prev = prev + seven));
   };
   const putEight = () => {
-    outPut == ""
+    outPut == "0"
       ? setOutPut(eight)
       : setOutPut((prev) => (prev = prev + eight));
   };
   const putNine = () => {
-    outPut == "" ? setOutPut(nine) : setOutPut((prev) => (prev = prev + nine));
+    outPut == "0" ? setOutPut(nine) : setOutPut((prev) => (prev = prev + nine));
   };
   const putDot = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
-    if (lastLetter == "" || lastLetter == ".") {
+    if (lastLetter == ".") {
       return;
     } else {
       setOutPut((prev) => (prev = prev + dot));
@@ -67,11 +69,11 @@ const Calculate = () => {
   };
 
   const clearInput = () => {
-    setOutPut("");
-    setResultIni("");
+    setOutPut("0");
+    // setResultIni("");
   };
 
-  //x.replace(/(?<=^|[^0-9])0+/g,"");
+  //x.replace(/(?<=^|[^0-9])0+/g,""); //regex to remove leading zeros
   const putZero = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
     let secondlastLetter = outPut.charAt(outPut.length - 1);
@@ -83,13 +85,7 @@ const Calculate = () => {
   };
   const addSymb = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
-    if (
-      lastLetter == "" ||
-      lastLetter == "+" ||
-      lastLetter == "-" ||
-      lastLetter == "*" ||
-      lastLetter == "/"
-    ) {
+    if (lastLetter == "+") {
       return;
     } else {
       setOutPut((prev) => (prev = prev + "+"));
@@ -97,13 +93,7 @@ const Calculate = () => {
   };
   const multiplySymb = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
-    if (
-      lastLetter == "" ||
-      lastLetter == "*" ||
-      lastLetter == "-" ||
-      lastLetter == "+" ||
-      lastLetter == "/"
-    ) {
+    if (lastLetter == "*") {
       return;
     } else {
       setOutPut((prev) => (prev = prev + "*"));
@@ -111,13 +101,7 @@ const Calculate = () => {
   };
   const divideSymb = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
-    if (
-      lastLetter == "" ||
-      lastLetter == "/" ||
-      lastLetter == "-" ||
-      lastLetter == "*" ||
-      lastLetter == "+"
-    ) {
+    if (lastLetter == "/") {
       return;
     } else {
       setOutPut((prev) => (prev = prev + "/"));
@@ -125,12 +109,7 @@ const Calculate = () => {
   };
   const subSymb = () => {
     let lastLetter = outPut.charAt(outPut.length - 1);
-    if (
-      lastLetter == "-" ||
-      lastLetter == "/" ||
-      lastLetter == "*" ||
-      lastLetter == "+"
-    ) {
+    if (lastLetter == "-") {
       return;
     } else {
       setOutPut((prev) => (prev = prev + "-"));
@@ -144,8 +123,11 @@ const Calculate = () => {
   };
 
   const checkInput = () => {
-    if (outPut == "") {
-      setResultIni("");
+    const regex = /(\.+\d+\.)/; //regex to allow only one dot within numbers
+    if (regex.test(outPut)) {
+      setOutPut((pre) => {
+        return (pre = pre.replace(/.$/, "")); //regex to replace the last character with an empty string
+      });
     }
   };
 
@@ -157,13 +139,27 @@ const Calculate = () => {
       lastLetter == "/" ||
       lastLetter == "*"
     ) {
-      setResultIni("Invalid input");
+      setOutPut("Invalid input");
     } else {
       try {
-        setResultIni(eval(outPut.replace(/(?<=^|[^0-9])0+/g, ""))); //regex to remove leading zeros anywhere in string
+        let myregex = /[\-|\*|\+|\/]+/; //only use last operator if multiple exist
+
+        // if (myregex.test(outPut)) {
+        //   let troubleOperator = outPut.match(myregex);
+        //   setResultIni(
+        //     outPut.replace(
+        //       troubleOperator[0],
+        //       troubleOperator[0].charAt(troubleOperator[0].length - 1)
+        //     )
+        //   );
+        //   return setOutPut(`${ourEval.exec(resultIni)}`);
+        // } else {
+        //   setOutPut(`${ourEval.exec(outPut)}`);
+        // }
+        setOutPut(`${ourEval.exec(outPut)}`);
       } catch (e) {
         console.log(e);
-        setResultIni("Invalid input");
+        setOutPut("Input is not valid");
       }
     }
   };
@@ -171,66 +167,66 @@ const Calculate = () => {
   return (
     <>
       <div className="body_card">
-        <div id="result">{outPut}</div>
-        <div className="pre_result">{resultIni}</div>
-
+        <div id="display" className="result">
+          {outPut}
+        </div>
         <div className="num_card">
-          <div id="itemAC" onClick={clearInput}>
+          <div className="itemAC" id="clear" onClick={clearInput}>
             AC
           </div>
           <div className="block" onClick={deleteOne}>
             <FontAwesomeIcon icon={faBackward} />
           </div>
-          <div className="block" onClick={multiplySymb}>
+          <div className="block" id="multiply" onClick={multiplySymb}>
             x
           </div>
 
-          <div className="block" onClick={putSeven}>
+          <div className="block" id="seven" onClick={putSeven}>
             {seven}
           </div>
-          <div className="block" onClick={putEight}>
+          <div className="block" id="eight" onClick={putEight}>
             {eight}
           </div>
-          <div className="block" onClick={putNine}>
+          <div className="block" id="nine" onClick={putNine}>
             {nine}
           </div>
-          <div className="block" onClick={subSymb}>
+          <div className="block" id="subtract" onClick={subSymb}>
             -
           </div>
 
-          <div className="block" onClick={putFour}>
+          <div className="block" id="four" onClick={putFour}>
             {four}
           </div>
-          <div className="block" onClick={putFive}>
+          <div className="block" id="five" onClick={putFive}>
             {five}
           </div>
-          <div className="block" onClick={putSix}>
+          <div className="block" id="six" onClick={putSix}>
             {six}
           </div>
-          <div className="block" onClick={addSymb}>
+          <div className="block" id="add" onClick={addSymb}>
             +
           </div>
 
-          <div className="block" onClick={putOne}>
+          <div className="block" id="one" onClick={putOne}>
             {one}
           </div>
-          <div className="block" onClick={putTwo}>
+          <div className="block" id="two" onClick={putTwo}>
             {two}
           </div>
-          <div className="block" onClick={putThree}>
+          <div className="block" id="three" onClick={putThree}>
             {three}
           </div>
-          <div id="item0" onClick={putZero}>
-            0
+          <div className="item0" onClick={putZero} id="zero">
+            {zero}
           </div>
-          <div className="block" onClick={putDot}>
+          <div className="block" id="decimal" onClick={putDot}>
             .
           </div>
-          <div className="block" onClick={divideSymb}>
+          <div className="block" id="divide" onClick={divideSymb}>
             /
           </div>
 
-          <div id="item_equal_sign" onClick={showResult}>
+          <div className="item_equal_sign" id="equals" onClick={showResult}>
             =
           </div>
         </div>

@@ -9,7 +9,7 @@
   font-weight: 400;
 }
 
-body {
+#body {
   margin: auto;
   display: grid;
   place-items: center center;
@@ -62,7 +62,7 @@ h1 {
   background-color: rgb(79, 10, 143);
 }
 
-#result {
+.result {
   display: flex;
   justify-content: flex-end;
   font-size: 1.1em;
@@ -71,7 +71,7 @@ h1 {
   /* border: 1px solid #ccc; */
   background-color: rgb(37, 8, 104);
   color: #fff;
-  min-height: 1.5em;
+  min-height: 1.8em;
 }
 
 .pre_result {
@@ -86,7 +86,7 @@ h1 {
   min-height: 1.5em;
 }
 
-#itemAC {
+.itemAC {
   display: grid;
   justify-content: center;
   align-items: center;
@@ -98,7 +98,7 @@ h1 {
   cursor: pointer;
 }
 
-#item0 {
+.item0 {
   display: grid;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@ h1 {
   cursor: pointer;
 }
 
-#item_equal_sign {
+.item_equal_sign {
   display: grid;
   align-items: center;
   justify-content: center;

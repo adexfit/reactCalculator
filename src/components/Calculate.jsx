@@ -6,9 +6,7 @@ import BigEval from "bigeval";
 const Calculate = () => {
   let ourEval = new BigEval();
   const [outPut, setOutPut] = useState("0");
-  // const [num1, setNum1] = useState("");
-  // const [num2, setNum2] = useState("");
-  const [resultIni, setResultIni] = useState("0");
+  let lastLetter = outPut.charAt(outPut.length - 1);
 
   useEffect(() => {
     checkInput();
@@ -70,21 +68,17 @@ const Calculate = () => {
 
   const clearInput = () => {
     setOutPut("0");
-    // setResultIni("");
   };
 
-  //x.replace(/(?<=^|[^0-9])0+/g,""); //regex to remove leading zeros
   const putZero = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
-    let secondlastLetter = outPut.charAt(outPut.length - 1);
     if (outPut.length == 1 && lastLetter == "0") {
+      //don't allow leading zeros
       return;
     } else {
       return setOutPut((prev) => (prev = prev + zero));
     }
   };
   const addSymb = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
     if (lastLetter == "+") {
       return;
     } else {
@@ -92,7 +86,6 @@ const Calculate = () => {
     }
   };
   const multiplySymb = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
     if (lastLetter == "*") {
       return;
     } else {
@@ -100,7 +93,6 @@ const Calculate = () => {
     }
   };
   const divideSymb = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
     if (lastLetter == "/") {
       return;
     } else {
@@ -108,7 +100,6 @@ const Calculate = () => {
     }
   };
   const subSymb = () => {
-    let lastLetter = outPut.charAt(outPut.length - 1);
     if (lastLetter == "-") {
       return;
     } else {
@@ -142,20 +133,32 @@ const Calculate = () => {
       setOutPut("Invalid input");
     } else {
       try {
-        let myregex = /[\*|\+|\/]+/; //only use last operator if multiple exist
+        let myregex = /[\-\*|\+|\/]+[\-\*|\+|\/]+/; //only use last operator if multiple exist
 
+        //check if user entered multiple operators
         if (myregex.test(outPut)) {
-          let troubleOperator = outPut.match(myregex);
-
-          let correctedExpression = outPut.replace(
-            troubleOperator[0],
-            troubleOperator[0].charAt(troubleOperator[0].length - 1)
+          let troubleOperator = outPut.match(myregex); //capture the operators
+          let firstOperator = troubleOperator[0].charAt(0);
+          let lastOperator = troubleOperator[0].charAt(
+            troubleOperator[0].length - 1
           );
-          setOutPut(`${ourEval.exec(correctedExpression)}`);
+
+          if (lastOperator == "-") {
+            let correctedExpression = outPut.replace(
+              troubleOperator[0],
+              `${firstOperator}${lastOperator}` //don't throw away first operator if the last is -
+            );
+            return setOutPut(`${ourEval.exec(correctedExpression)}`);
+          } else {
+            let correctedExpression = outPut.replace(
+              troubleOperator[0],
+              `${lastOperator}`
+            );
+            return setOutPut(`${ourEval.exec(correctedExpression)}`);
+          }
         } else {
           setOutPut(`${ourEval.exec(outPut)}`);
         }
-        // setOutPut(`${ourEval.exec(outPut)}`);
       } catch (e) {
         console.log(e);
         setOutPut("Input is not valid");

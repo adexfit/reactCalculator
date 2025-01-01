@@ -142,21 +142,20 @@ const Calculate = () => {
       setOutPut("Invalid input");
     } else {
       try {
-        let myregex = /[\-|\*|\+|\/]+/; //only use last operator if multiple exist
+        let myregex = /[\*|\+|\/]+/; //only use last operator if multiple exist
 
-        // if (myregex.test(outPut)) {
-        //   let troubleOperator = outPut.match(myregex);
-        //   setResultIni(
-        //     outPut.replace(
-        //       troubleOperator[0],
-        //       troubleOperator[0].charAt(troubleOperator[0].length - 1)
-        //     )
-        //   );
-        //   return setOutPut(`${ourEval.exec(resultIni)}`);
-        // } else {
-        //   setOutPut(`${ourEval.exec(outPut)}`);
-        // }
-        setOutPut(`${ourEval.exec(outPut)}`);
+        if (myregex.test(outPut)) {
+          let troubleOperator = outPut.match(myregex);
+
+          let correctedExpression = outPut.replace(
+            troubleOperator[0],
+            troubleOperator[0].charAt(troubleOperator[0].length - 1)
+          );
+          setOutPut(`${ourEval.exec(correctedExpression)}`);
+        } else {
+          setOutPut(`${ourEval.exec(outPut)}`);
+        }
+        // setOutPut(`${ourEval.exec(outPut)}`);
       } catch (e) {
         console.log(e);
         setOutPut("Input is not valid");
